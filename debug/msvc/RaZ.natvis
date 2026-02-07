@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <Type Name="Raz::Degrees&lt;*&gt;">
+        <DisplayString>{{{value}}}</DisplayString>
+        <Expand>
+            <Item Name="[radians]">value * static_cast&lt;$T1&gt;(3.14159265358979323846) / 180</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="Raz::Matrix&lt;*,*,*&gt;">
+        <Expand>
+            <IndexListItems>
+                <Size>$T2 * $T3</Size>
+                <ValueNode>m_data[$i]</ValueNode>
+            </IndexListItems>
+        </Expand>
+    </Type>
+
+    <Type Name="Raz::Quaternion&lt;*&gt;">
+        <Intrinsic Name="sqNorm" Expression="vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]">
+            <Parameter Name="vec" Type="Raz::Vector&lt;$T1,3&gt;&amp;" />
+        </Intrinsic>
+        <DisplayString>{{{m_real}, {m_complexes[0]}, {m_complexes[1]}, {m_complexes[2]}}</DisplayString>
+        <Expand>
+            <Item Name="[squared norm]">m_real + sqNorm(m_complexes)</Item>
+            <Item Name="[norm]">sqrt(m_real + sqNorm(m_complexes))</Item>
+            <Item Name="[w]">m_real</Item>
+            <Item Name="[x]">m_complexes[0]</Item>
+            <Item Name="[y]">m_complexes[1]</Item>
+            <Item Name="[z]">m_complexes[2]</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="Raz::Radians&lt;*&gt;">
+        <DisplayString>{{{value}}}</DisplayString>
+        <Expand>
+            <Item Name="[degrees]">value * 180 / static_cast&lt;$T1&gt;(3.14159265358979323846)</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="Raz::Vector&lt;*,*&gt;">
+        <DisplayString Condition="$T2 == 1">{{{m_data[0]}}}</DisplayString>
+        <DisplayString Condition="$T2 == 2">{{{m_data[0]}, {m_data[1]}}}</DisplayString>
+        <DisplayString Condition="$T2 == 3">{{{m_data[0]}, {m_data[1]}, {m_data[2]}}}</DisplayString>
+        <DisplayString Condition="$T2 == 4">{{{m_data[0]}, {m_data[1]}, {m_data[2]}, {m_data[3]}}}</DisplayString>
+        <DisplayString Condition="$T2 &gt; 4">{{{m_data[0]}, {m_data[1]}, {m_data[2]}, {m_data[3]}, ...}}</DisplayString>
+        <Expand>
+            <CustomListItems>
+                <Variable Name="sqLength" InitialValue="static_cast&lt;$T1&gt;(0)" />
+                <Variable Name="valIndex" InitialValue="0" />
+                <Loop Condition="valIndex &lt; $T2">
+                    <Exec>sqLength += m_data[valIndex] * m_data[valIndex]</Exec>
+                    <Exec>++valIndex</Exec>
+                </Loop>
+                <Item Name="[squared length]">sqLength</Item>
+                <Item Name="[length]">sqrt(sqLength)</Item>
+            </CustomListItems>
+            <IndexListItems>
+              <Size>$T2</Size>
+              <ValueNode>m_data[$i]</ValueNode>
+            </IndexListItems>
+        </Expand>
+    </Type>
+</AutoVisualizer>

@@ -52,8 +52,8 @@ public:
   /// \return Quaternions' dot product.
   constexpr T dot(const Quaternion& quat) const noexcept { return (m_real * quat.m_real + m_complexes.dot(quat.m_complexes)); }
   /// Computes the norm of the quaternion.
-  /// Calculating the actual norm requires a square root operation to be involved, which is expensive.
-  /// As such, this function should be used if actual length is needed; otherwise, prefer computeSquaredNorm().
+  /// Calculating the norm requires a square root operation to be involved, which is expensive.
+  /// As such, this function should be used only if the actual norm is needed; otherwise, prefer computeSquaredNorm().
   /// \return Quaternion's norm.
   constexpr T computeNorm() const noexcept { return std::sqrt(computeSquaredNorm()); }
   /// Computes the squared norm of the quaternion.
@@ -111,7 +111,7 @@ public:
   /// Quaternion equality comparison operator.
   /// Uses a near-equality check to take floating-point errors into account.
   /// \param quat Quaternion to be compared with.
-  /// \return True if quaternions are nearly equal, else otherwise.
+  /// \return True if quaternions are nearly equal to each other, false otherwise.
   constexpr bool operator==(const Quaternion& quat) const noexcept;
   /// Matrix conversion operator; computes the rotation matrix represented by the quaternion.
   /// \return Rotation matrix.

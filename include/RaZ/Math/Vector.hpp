@@ -91,7 +91,7 @@ public:
   template <typename SqLengthT = std::conditional_t<std::is_integral_v<T>, uint64_t, T>>
   constexpr SqLengthT computeSquaredLength() const noexcept { return static_cast<SqLengthT>(dot(*this)); }
   /// Computes the length of the vector.
-  /// Calculating the actual length requires a square root operation to be involved, which is expensive.
+  /// Calculating the length requires a square root operation to be involved, which is expensive.
   /// As such, this function should be used only if the actual length is needed; otherwise, prefer computeSquaredLength().
   /// \tparam LengthT Type of the length value. For vectors of an integral type, it is defined to float; otherwise, it is the same as the original vector's.
   /// \return Vector's length.
@@ -216,7 +216,7 @@ public:
   /// Vector equality comparison operator.
   /// Uses a near-equality check on floating types to take floating-point errors into account.
   /// \param vec Vector to be compared with.
-  /// \return True if vectors are [nearly] equal, else otherwise.
+  /// \return True if vectors are nearly equal to each other, false otherwise.
   constexpr bool operator==(const Vector& vec) const noexcept;
   /// Vector's value type conversion operator.
   /// \tparam T2 Type to convert the vector's values to.

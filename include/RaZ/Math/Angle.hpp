@@ -75,7 +75,7 @@ struct Degrees {
   /// Uses a near-equality check to take floating-point errors into account.
   /// \tparam T2 Type of the degrees object to be compared with.
   /// \param deg Degrees to be compared with.
-  /// \return True if degrees' values are nearly equal, false otherwise.
+  /// \return True if the degrees' values are nearly equal to each other, false otherwise.
   template <typename T2>
   constexpr bool operator==(const Degrees<T2>& deg) const noexcept { return FloatUtils::areNearlyEqual(value, static_cast<T>(deg.value)); }
   /// Implicit degrees' value type conversion operator.
@@ -160,7 +160,7 @@ struct Radians {
   /// Uses a near-equality check to take floating-point errors into account.
   /// \tparam T2 Type of the radians object to be compared with.
   /// \param rad Radians to be compared with.
-  /// \return True if radians' values are nearly equal, false otherwise.
+  /// \return True if the radians' values are nearly equal to each other, false otherwise.
   template <typename T2>
   constexpr bool operator==(const Radians<T2>& rad) const noexcept { return FloatUtils::areNearlyEqual(value, static_cast<T>(rad.value)); }
   /// Implicit radians' value type conversion operator.

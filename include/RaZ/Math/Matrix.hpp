@@ -173,7 +173,7 @@ public:
   /// \return Reference to the modified original matrix.
   constexpr Matrix& operator*=(const Matrix& mat) noexcept;
   /// Element fetching operator with a single index.
-  /// \warning Matrices being in column-major layout, this must be used with caution. For example, with a 3x3 matrix, the indices are laid out as follows:
+  /// \warning Matrices being in a column-major layout, this must be used with caution. For example, with a 3x3 matrix, the indices are laid out as follows:
   ///
   ///     0 3 6
   ///     1 4 7
@@ -195,7 +195,7 @@ public:
   /// Matrix equality comparison operator.
   /// Uses a near-equality check on floating types to take floating-point errors into account.
   /// \param mat Matrix to be compared with.
-  /// \return True if matrices are [nearly] equal, else otherwise.
+  /// \return True if matrices are nearly equal to each other, false otherwise.
   constexpr bool operator==(const Matrix& mat) const noexcept;
   /// Matrix output stream operator.
   /// \param stream Stream to output into.
