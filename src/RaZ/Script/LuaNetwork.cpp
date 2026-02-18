@@ -1,3 +1,4 @@
+#include "RaZ/Network/HttpClient.hpp"
 #include "RaZ/Network/TcpClient.hpp"
 #include "RaZ/Network/TcpServer.hpp"
 #include "RaZ/Network/UdpClient.hpp"
@@ -14,6 +15,15 @@ using namespace TypeUtils;
 
 void LuaWrapper::registerNetworkTypes() {
   sol::state& state = getState();
+
+  {
+    sol::usertype<HttpClient> httpClient = state.new_usertype<HttpClient>("HttpClient",
+                                                                          sol::constructors<HttpClient(),
+                                                                                            HttpClient(std::string)>());
+    httpClient["connect"]    = &HttpClient::connect;
+    httpClient["get"]        = &HttpClient::get;
+    httpClient["disconnect"] = &HttpClient::disconnect;
+  }
 
   {
     sol::usertype<TcpClient> tcpClient = state.new_usertype<TcpClient>("TcpClient",

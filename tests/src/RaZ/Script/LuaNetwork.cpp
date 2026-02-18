@@ -2,6 +2,18 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+TEST_CASE("LuaNetwork HttpClient", "[script][lua][network]") {
+  CHECK(TestUtils::executeLuaScript(R"(
+    local httpClient = HttpClient.new()
+    --httpClient       = HttpClient.new("localhost") -- Throws as there's no available server
+
+    --httpClient:connect("localhost") -- Throws as there's no available server
+    -- Request functions throw when not connected
+    --httpClient:get("/")
+    httpClient:disconnect()
+  )"));
+}
+
 TEST_CASE("LuaNetwork TcpClient", "[script][lua][network]") {
   CHECK(TestUtils::executeLuaScript(R"(
     local tcpClient = TcpClient.new()
