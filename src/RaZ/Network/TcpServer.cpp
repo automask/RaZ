@@ -62,10 +62,15 @@ struct TcpServer::Impl {
 
 TcpServer::TcpServer() : m_impl{ std::make_unique<Impl>() } {}
 
+bool TcpServer::isRunning() const {
+  return m_impl->acceptor.is_open();
+}
+
 void TcpServer::start(unsigned short port) {
   Logger::debug("[TcpServer] Starting on port {}...", port);
 
-  stop();
+  if (isRunning())
+    stop();
   setup(port);
   accept();
 
@@ -86,7 +91,10 @@ void TcpServer::stop() {
   Logger::debug("[TcpServer] Stopped");
 }
 
-TcpServer::~TcpServer() = default;
+TcpServer::~TcpServer() {
+  if (isRunning())
+    stop();
+}
 
 void TcpServer::setup(unsigned short port) {
   if (m_impl->context.stopped())

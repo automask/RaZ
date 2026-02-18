@@ -38,8 +38,7 @@ TEST_CASE("TcpClient connection", "[network]") {
 }
 
 TEST_CASE("TcpClient send and receive", "[network]") {
-  Raz::TcpServer server;
-  server.start(1234);
+  Raz::TcpServer server(1234);
 
   Raz::TcpClient client("localhost", 1234);
   REQUIRE(client.isConnected());
@@ -53,12 +52,10 @@ TEST_CASE("TcpClient send and receive", "[network]") {
   CHECK(client.receive() == "other test");
 
   client.disconnect();
-  server.stop();
 }
 
 TEST_CASE("TcpClient receive at least", "[network]") {
-  Raz::TcpServer server;
-  server.start(1234);
+  Raz::TcpServer server(1234);
 
   Raz::TcpClient client("localhost", 1234);
   REQUIRE(client.isConnected());
@@ -71,12 +68,10 @@ TEST_CASE("TcpClient receive at least", "[network]") {
   CHECK(client.receiveAtLeast(1) == "ther data");
 
   client.disconnect();
-  server.stop();
 }
 
 TEST_CASE("TcpClient receive exactly", "[network]") {
-  Raz::TcpServer server;
-  server.start(1234);
+  Raz::TcpServer server(1234);
 
   Raz::TcpClient client("localhost", 1234);
   REQUIRE(client.isConnected());
@@ -86,12 +81,10 @@ TEST_CASE("TcpClient receive exactly", "[network]") {
   CHECK(client.receiveExactly(3) == "est");
 
   client.disconnect();
-  server.stop();
 }
 
 TEST_CASE("TcpClient receive until delimiter", "[network]") {
-  Raz::TcpServer server;
-  server.start(1234);
+  Raz::TcpServer server(1234);
 
   Raz::TcpClient client("localhost", 1234);
   REQUIRE(client.isConnected());
@@ -101,5 +94,4 @@ TEST_CASE("TcpClient receive until delimiter", "[network]") {
   CHECK(client.receiveUntil("\r\n") == "test\r\n");
 
   client.disconnect();
-  server.stop();
 }

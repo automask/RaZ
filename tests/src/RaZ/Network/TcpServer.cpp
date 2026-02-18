@@ -6,12 +6,18 @@
 
 TEST_CASE("TcpServer basic", "[network]") {
   Raz::TcpServer server;
+  CHECK_FALSE(server.isRunning());
 
   CHECK_NOTHROW(server.stop()); // Stopping a non-running server isn't an error
+  CHECK_FALSE(server.isRunning());
 
   CHECK_NOTHROW(server.start(1234));
+  CHECK(server.isRunning());
   CHECK_NOTHROW(server.start(1234)); // Starting an already running server restarts it properly
+  CHECK(server.isRunning());
 
   CHECK_NOTHROW(server.stop());
+  CHECK_FALSE(server.isRunning());
   CHECK_NOTHROW(server.stop()); // Stopping an already stopped server does nothing
+  CHECK_FALSE(server.isRunning());
 }

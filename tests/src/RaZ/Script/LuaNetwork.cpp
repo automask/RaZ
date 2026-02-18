@@ -23,7 +23,9 @@ TEST_CASE("LuaNetwork TcpClient", "[script][lua][network]") {
 TEST_CASE("LuaNetwork TcpServer", "[script][lua][network]") {
   CHECK(TestUtils::executeLuaScript(R"(
     local tcpServer = TcpServer.new()
+    tcpServer       = TcpServer.new(1234)
 
+    assert(tcpServer:isRunning())
     tcpServer:start(1234)
     tcpServer:stop()
   )"));
@@ -45,7 +47,9 @@ TEST_CASE("LuaNetwork UdpClient", "[script][lua][network]") {
 TEST_CASE("LuaNetwork UdpServer", "[script][lua][network]") {
   CHECK(TestUtils::executeLuaScript(R"(
     local udpServer = UdpServer.new()
+    udpServer       = UdpServer.new(1234)
 
+    assert(udpServer:isRunning())
     udpServer:start(1234)
     udpServer:stop()
   )"));

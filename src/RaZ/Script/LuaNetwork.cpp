@@ -36,9 +36,11 @@ void LuaWrapper::registerNetworkTypes() {
 
   {
     sol::usertype<TcpServer> tcpServer = state.new_usertype<TcpServer>("TcpServer",
-                                                                       sol::constructors<TcpServer()>());
-    tcpServer["start"] = &TcpServer::start;
-    tcpServer["stop"]  = &TcpServer::stop;
+                                                                       sol::constructors<TcpServer(),
+                                                                                         TcpServer(unsigned short)>());
+    tcpServer["isRunning"] = &TcpServer::isRunning;
+    tcpServer["start"]     = &TcpServer::start;
+    tcpServer["stop"]      = &TcpServer::stop;
   }
 
   {
@@ -54,9 +56,11 @@ void LuaWrapper::registerNetworkTypes() {
 
   {
     sol::usertype<UdpServer> udpServer = state.new_usertype<UdpServer>("UdpServer",
-                                                                       sol::constructors<UdpServer()>());
-    udpServer["start"] = &UdpServer::start;
-    udpServer["stop"]  = &UdpServer::stop;
+                                                                       sol::constructors<UdpServer(),
+                                                                                         UdpServer(unsigned short)>());
+    udpServer["isRunning"] = &UdpServer::isRunning;
+    udpServer["start"]     = &UdpServer::start;
+    udpServer["stop"]      = &UdpServer::stop;
   }
 }
 

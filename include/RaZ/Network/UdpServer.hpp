@@ -10,11 +10,13 @@ namespace Raz {
 class UdpServer {
 public:
   UdpServer();
+  explicit UdpServer(unsigned short port) : UdpServer() { start(port); }
   UdpServer(const UdpServer&) = delete;
   UdpServer(UdpServer&&) noexcept = default;
 
+  bool isRunning() const;
+
   /// Starts the server.
-  /// \note This operation is blocking; call the function from another thread if needed.
   /// \param port Port to communicate on.
   void start(unsigned short port);
   /// Stops the server.

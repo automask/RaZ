@@ -6,12 +6,11 @@ int main() {
   try {
     Raz::Logger::setLoggingLevel(Raz::LoggingLevel::ALL);
 
-    Raz::TcpServer server;
-    server.start(1234);
-
+    Raz::TcpServer server(1234);
     Raz::TcpClient client("localhost", 1234);
 
     while (true) {
+      std::cout << "Write text to be sent ('q' to quit):\n";
       std::string request;
       std::cin >> request;
 
@@ -23,7 +22,6 @@ int main() {
     }
 
     client.disconnect();
-    server.stop();
   } catch (const std::exception& exception) {
     Raz::Logger::error("Exception occurred: {}", exception.what());
   }

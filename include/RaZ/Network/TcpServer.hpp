@@ -10,8 +10,11 @@ namespace Raz {
 class TcpServer {
 public:
   TcpServer();
+  explicit TcpServer(unsigned short port) : TcpServer() { start(port); }
   TcpServer(const TcpServer&) = delete;
   TcpServer(TcpServer&&) noexcept = default;
+
+  bool isRunning() const;
 
   /// Starts the server and listens for connections.
   /// \param port Port to listen for connections on.

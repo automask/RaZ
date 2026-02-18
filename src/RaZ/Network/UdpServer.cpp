@@ -20,10 +20,15 @@ struct UdpServer::Impl {
 
 UdpServer::UdpServer() : m_impl{ std::make_unique<Impl>() } {}
 
+bool UdpServer::isRunning() const {
+  return m_impl->socket.is_open();
+}
+
 void UdpServer::start(unsigned short port) {
   Logger::debug("[UdpServer] Starting on port {}...", port);
 
-  stop();
+  if (isRunning())
+    stop();
   setup(port);
   receive();
 
@@ -45,7 +50,10 @@ void UdpServer::stop() {
   Logger::debug("[UdpServer] Stopped");
 }
 
-UdpServer::~UdpServer() = default;
+UdpServer::~UdpServer() {
+  if (isRunning())
+    stop();
+}
 
 void UdpServer::setup(unsigned short port) {
   if (m_impl->context.stopped())
