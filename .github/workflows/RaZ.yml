@@ -113,12 +113,14 @@ jobs:
         pwd && find .
 
     # Running all tests but rendering ones, using GDB to catch potential segfaults
+    # Allowing ports 80+ to be bound for HTTP tests
     # TODO: they are only run if windowing is enabled, as mesh loading functions notably depend on it to create mesh renderers, but they should not
     - name: Test
       if: matrix.use_window
       shell: bash
       working-directory: ${{ runner.workspace }}/build-${{ matrix.compiler.c }}
       run: |
+        sudo sysctl net.ipv4.ip_unprivileged_port_start=80 &&
         ALSOFT_DRIVERS=null xvfb-run -a --server-args='-screen 0 1280x720x16' \
         gdb --batch --return-child-result -x '${{ github.workspace }}/tests/assets/debug/gdb_commands.txt' --args ./tests/RaZ_Tests ~[render]
 
