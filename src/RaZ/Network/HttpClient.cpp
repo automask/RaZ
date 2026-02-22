@@ -58,11 +58,39 @@ std::string HttpClient::get(std::string_view resource) {
   if (contentLength > 0)
     return m_tcpClient.receiveExactly(contentLength);
 
-  if (isChunked) // TODO: properly handle chunked data
-    return m_tcpClient.receiveUntil("\r\n\r\n");
+  if (isChunked)
+    return receiveChunked();
 
   Logger::error("[HttpClient] Failed to get resource '{}': unsupported response method", resource);
   return {};
+}
+
+std::string HttpClient::receiveChunked() {
+  const auto receiveCrlf = [this] () {
+    if (const std::string chunkEnd = m_tcpClient.receiveExactly(2); chunkEnd != "\r\n")
+      throw std::runtime_error(std::format("[HttpClient] Ill-formed end of chunk: expected CRLF ('\\r\\n'), got '{}'", chunkEnd));
+  };
+
+  std::string data;
+
+  while (true) {
+    const std::string chunkSizeStr = m_tcpClient.receiveUntil("\r\n");
+
+    if (chunkSizeStr == "0\r\n") {
+      receiveCrlf();
+      break;
+    }
+
+    std::size_t chunkSize {};
+
+    if (std::from_chars(chunkSizeStr.data(), chunkSizeStr.data() + chunkSizeStr.size() - 2, chunkSize, 16).ec != std::errc())
+      throw std::runtime_error(std::format("[HttpClient] Failed to parse chunk size: '{}'", chunkSizeStr));
+
+    data.append(m_tcpClient.receiveExactly(chunkSize));
+    receiveCrlf();
+  }
+
+  return data;
 }
 
 }

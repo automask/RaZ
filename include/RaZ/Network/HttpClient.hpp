@@ -23,6 +23,8 @@ public:
   void disconnect() { m_tcpClient.disconnect(); }
 
 private:
+  std::string receiveChunked();
+
   std::string m_host;
   TcpClient m_tcpClient;
 };

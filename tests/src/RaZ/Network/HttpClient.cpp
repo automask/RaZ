@@ -16,3 +16,18 @@ TEST_CASE("HttpClient connection", "[network]") {
   CHECK_NOTHROW(client.connect("localhost")); // Local TCP server listening on port 80 (HTTP)
   CHECK_NOTHROW(client.disconnect());
 }
+
+TEST_CASE("HttpClient get", "[network][!mayfail]") {
+  Raz::HttpClient client;
+
+  REQUIRE_NOTHROW(client.connect("example.com"));
+
+  std::string result;
+  REQUIRE_NOTHROW(result = client.get("/"));
+
+  CHECK(result.size() == 528);
+  CHECK(result.starts_with("<!doctype html>"));
+  CHECK(result.ends_with("</html>\n"));
+
+  CHECK_NOTHROW(client.disconnect());
+}
