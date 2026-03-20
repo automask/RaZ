@@ -550,3 +550,5 @@ if (RAZ_COMPILER_MSVC AND RAZ_USE_AUDIO)
     install(FILES "${OPENAL_DLL}" RENAME "OpenAL32.dll"    DESTINATION "bin/$<CONFIG>")
     install(FILES "${OPENAL_DLL}" RENAME "libopenal-1.dll" DESTINATION "bin/$<CONFIG>")
 endif ()
+
+include(_dev/config.cmake)
