@@ -1,0 +1,6 @@
+CompileFlags:
+  Add:
+    - -std=c++20
+
+  Remove:
+    - -Wc++98-compat

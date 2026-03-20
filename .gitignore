@@ -4,6 +4,9 @@
 *.o
 #*.obj
 
+# 
+_dev/
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -34,3 +37,5 @@
 
 # Misc
 .cache/
+config.bat
+node_modules
